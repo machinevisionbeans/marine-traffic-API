@@ -20,19 +20,8 @@ def connectDB():
         exit(0)
     return (conn)
 
-def setDB():
-    # Instantiate Connection
-    try:
-        conn = mariadb.connect(
-            user="connpy_test",
-            password="passwd",
-            host="localhost",
-            port=3306)
-    except mariadb.Error as e:
-        print(f"Error connecting to MariaDB Platform: {e}")
-        exit(0)
-
-
+def setDB(conn):
+    # TEMP CODE
     cnx = mysql.connector.connect(user='root', password='root', database='newsapp')
     cursor = cnx.cursor()
     cursor.execute('SET NAMES utf8mb4')  # Some symbols are in fact UTF8 4 Bit
@@ -44,5 +33,9 @@ def setDB():
     
     cursor.close()
     cnx.close()  
+
+def getDB(conn):
+    # GET SHIP NAMES FROM DATASET
+    print("hello")
 
 print(connectDB())
