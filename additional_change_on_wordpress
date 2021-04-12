@@ -1,0 +1,93 @@
+File Path: wp-content/themes/phlox-pro-childd/functions.php	
+Line: 48
+
+// Locations Map Shortcode - [locations_map]		
+function locations_map (){
+     
+    $args = array(
+        'post_type' => 'ship',
+        'posts_per_page' => -1,
+    );	
+	
+    $argshurricane = array(
+        'post_type' => 'hurricanes',
+        'posts_per_page' => -1,
+    );
+	$hurricanes_query = new WP_QUERY($argshurricane);
+    $locations_query = new WP_QUERY($args);
+	
+     
+    if ( $locations_query->have_posts() OR $hurricanes_query->have_posts()) {
+     
+    ob_start(); ?>
+ 
+    <div class="acf-map" style="overflow: hidden; position: relative;">
+ 
+
+        <?php while ( $locations_query->have_posts() ) {
+            $locations_query->the_post(); 
+			$ships_title = get_the_title();
+			$latitude = get_field('latitude');
+			$longitude = get_field('longitude');
+		    $last_auto_update = get_field('last_auto_update');
+		    $speed = get_field('speed');
+		    $title = get_the_title();
+            $excel_copy = get_field('excel_copy');
+			$type_icon = get_stylesheet_directory_uri().'/images/ships.png';
+		    $ship_owner = get_field('ship_owner');
+		
+			$current_user = wp_get_current_user();
+            
+			if(in_array( $current_user->ID, $ship_owner ) OR in_array( 'oceanroute_team_members', (array) $current_user->roles ) OR in_array( 'administrator', (array) $current_user->roles )){
+			?>
+		
+            <div class="marker" data-lat="<?php echo $latitude; ?>" data-lng="<?php echo $longitude; ?>" data-img="<?php echo $type_icon; ?>">
+                <div class="inside-marker">
+                    <h5><?php echo $ships_title; ?></h5>
+					<p><?php
+						echo 'Last Position Received: <br>';
+						echo 'Lat: '.$latitude.' - Long: '.$longitude.'<br><br>';
+						echo 'Speed (kn): '.$speed.'<br><br>';
+                        echo $excel_copy.'<br><br>';
+						echo 'Last Auto-Update: '.$last_auto_update.'<br><br>';
+                    ?></p>
+                </div>
+            </div>			
+		<?php } } ?>
+			
+		<?php while ( $hurricanes_query->have_posts() ) {			
+			// hurricanes
+			$hurricanes_query->the_post();
+			$hurricane_title = get_the_title();
+			$hurricanes_latitude = get_field('hurricanes_latitude');
+			$hurricanes_longitude = get_field('hurricanes_longitude');
+			$hurricanes_text = get_field('text');
+			$type_icon_hurricanes = get_stylesheet_directory_uri().'/images/cyclone.png';
+			
+			$current_user = wp_get_current_user();
+				
+			if(in_array( 'oceanroute_clients', (array) $current_user->roles ) OR in_array( 'oceanroute_team_members', (array) $current_user->roles ) OR in_array( 'administrator', (array) $current_user->roles )){
+			?>
+				
+			<div class="hurricane" data-lat-hurricane="<?php echo $hurricanes_latitude; ?>" data-lng-hurricane="<?php echo $hurricanes_longitude; ?>" data-img-hurricane="<?php echo $type_icon_hurricanes; ?>">
+			<div class="inside-marker">
+					<h5><?php echo $hurricane_title; ?></h5>
+					<p><?php
+						echo 'Last Position Received: <br>';
+						echo 'Lat '.$hurricanes_latitude.' - Long '.$hurricanes_longitude.'<br><br>';
+						echo $hurricanes_text;
+					?></p>
+				</div>
+			</div>
+		<?php } } ?>
+    </div>
+     
+    <?php wp_reset_postdata(); 
+     
+    }
+     
+    return ob_get_clean();
+         
+}
+ 
+add_shortcode( 'locations_map', 'locations_map' );
