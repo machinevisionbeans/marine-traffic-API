@@ -8,8 +8,8 @@ import configparser
 
 def connectDB():
     config = configparser.ConfigParser()
-    config.read('config/config.ini')
-    #config.read('/root/my_python_scripts/config/config.ini')    
+    #config.read('config/config.ini')
+    config.read('/root/my_python_scripts/config/config.ini')    
     # Instantiate Connection
     try:
         conn = mariadb.connect(

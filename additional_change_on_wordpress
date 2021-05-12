@@ -33,6 +33,7 @@ function locations_map (){
 		    $speed = get_field('speed');
 		    $title = get_the_title();
             $excel_copy = get_field('excel_copy');
+			$past_positions = get_field('past_positions');
 			$type_icon = get_stylesheet_directory_uri().'/images/ships.png';
 		    $ship_owner = get_field('ship_owner');
 		
@@ -49,7 +50,8 @@ function locations_map (){
 						echo 'Lat: '.$latitude.' - Long: '.$longitude.'<br><br>';
 						echo 'Speed (kn): '.$speed.'<br><br>';
                         echo $excel_copy.'<br><br>';
-						echo 'Last Auto-Update: '.$last_auto_update.'<br><br>';
+						echo 'Past Positions: '.$past_positions.'<br><br>';
+						echo 'Last Auto-Update: '.$last_auto_update.'<br>';
                     ?></p>
                 </div>
             </div>			
