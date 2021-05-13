@@ -4,6 +4,7 @@ import requests
 from marinetrafficapi import MarineTrafficApi
 from marinetrafficapi import exceptions
 from datetime import datetime
+from datetime import timedelta
 
 # Config Parsing
 config = configparser.ConfigParser()
@@ -60,6 +61,7 @@ def mainMarineTraffic(config):
         # Update DB
         database_functions.setDB(conn, ship_id[0], longitude, latitude, speed, last_auto_update)
 
+    # Feature: Tracks Used Credits
     config.set('API1', 'used_credits', str(count_used_credits))
     #with open('config/config.ini', 'w') as configfile:
     with open('/root/my_python_scripts/config/config.ini', 'w') as configfile:
@@ -70,11 +72,21 @@ def mainMarineTraffic(config):
 ''' VesselFinder API '''
 ''' Mode #2          '''
 def mainVesselFinder(config):
-    # Connect to DB
+    # # Connect to DB
     conn = database_functions.connectDB()
     # Get ship IDs from DB
     ship_ids = database_functions.getDB(conn) 
     ship_ids = [int(item[0]) for item in ship_ids]
+
+    # Feature: Tracks Past History Positions
+    flag_every_1_hour = False
+    last_execution = config['API']['last_execution']
+    if (datetime.strptime(last_execution, '%Y-%m-%d %H:%M:%S.%f') < datetime.today() - timedelta(hours=1)):  # If difference to config.ini is bigger than 1 hour
+        flag_every_1_hour = True
+        config.set('API', 'last_execution', str(datetime.today()))
+        #with open('config/config.ini', 'w') as configfile:
+        with open('/root/my_python_scripts/config/config.ini', 'w') as configfile:
+            config.write(configfile)
 
     # Query the API (https://api.vesselfinder.com/docs/vesselslist.html)
     # No "for" loop needed here, the ship list is already intergrated in the API
@@ -124,9 +136,13 @@ def mainVesselFinder(config):
             raise Exception("Some sort of Error occured, see above.")
         elif mmsi in ship_ids:
             database_functions.setDB(conn, mmsi, longitude, latitude, speed, last_auto_update)
+            if flag_every_1_hour == True:
+                database_functions.setDBPastPositions(conn, mmsi, longitude, latitude)
         else:
             raise Exception("Error: Ship position was retrieved from the API, but not found in Database")         
-            
+
+    # Feature: Tracks Past History Positions
+
     conn.close()
 
 

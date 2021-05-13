@@ -46,3 +46,18 @@ def getDB(conn):
 
     # Get Result-set
     return (tuple(cursor))
+
+def setDBPastPositions(conn, ship_id, longitude, latitude):
+    # Append Data
+    cursor = conn.cursor()
+
+    position_value = "->"+str(latitude)+","+str(longitude)
+
+    try: 
+        if longitude != 0:       
+            cursor.execute("UPDATE iR4muqNI_acf_ships SET past_positions = concat(ifnull(past_positions,''), ?) WHERE ship_id = ?", (position_value, ship_id)) 
+    except mariadb.Error as e: 
+        print(f"Error during the Update Query: {e}")
+    conn.commit()
+
+    print(f"Past Position Update was run, Affected Rows: {cursor.rowcount}")    
