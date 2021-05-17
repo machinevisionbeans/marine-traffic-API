@@ -47,11 +47,11 @@ def getDB(conn):
     # Get Result-set
     return (tuple(cursor))
 
-def setDBPastPositions(conn, ship_id, longitude, latitude):
+def setDBPastPositions(conn, ship_id, longitude, latitude, timestamp):
     # Append Data
     cursor = conn.cursor()
 
-    position_value = "->"+str(latitude)+","+str(longitude)
+    position_value = "->"+timestamp+":"+str(latitude)+","+str(longitude)
 
     try: 
         if longitude != 0:       
