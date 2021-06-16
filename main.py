@@ -81,7 +81,7 @@ def mainVesselFinder(config):
     # Feature: Tracks Past History Positions
     flag_every_3_hours = False
     last_execution = config['API']['last_execution']
-    if (datetime.strptime(last_execution, '%Y-%m-%d %H:%M:%S.%f') < datetime.today() - timedelta(hours=3, minutes=5)):  # If difference to config.ini is bigger than 1 hour
+    if (datetime.strptime(last_execution, '%Y-%m-%d %H:%M:%S.%f') < datetime.today() - timedelta(hours=2, minutes=55)):  # If difference to config.ini is bigger than 1 hour
         flag_every_3_hours = True
         config.set('API', 'last_execution', str(datetime.today()))
         #with open('config/config.ini', 'w') as configfile:
