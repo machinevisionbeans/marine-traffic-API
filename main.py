@@ -21,7 +21,7 @@ def mainMarineTraffic(config):
 
     # Connect to the API
     api = MarineTrafficApi(api_key=config['API1']['api_key'])
-    # Query the API (https://www.marinetraffic.com/en/ais-api-services/documentation/api-service:ps07)
+    # Query the API (https://www.marinetraffic.com/en/ais-api-services/documentation/api-service:ps07) using Ship's MMSI/IMO
     MarineTrafficApi.print_params_for('single_vessel_positions')
     count_used_credits = int(config['API1']['used_credits'])
     for ship_id in ship_ids:
@@ -101,7 +101,7 @@ def mainVesselFinder(config):
             print(f"API Request Error: Response Error")
             time_now_utc = datetime.utcnow().replace(microsecond=0)
 
-            mmsi = 0
+            ship_id = 0
             longitude = 0
             latitude = 0
             speed = 0
@@ -111,7 +111,7 @@ def mainVesselFinder(config):
             print(f"API Run Successfully")
 
             try:
-                mmsi = ship["AIS"]["MMSI"]
+                ship_id = ship["AIS"]["IMO"]
                 longitude = ship["AIS"]["LONGITUDE"]
                 latitude = ship["AIS"]["LATITUDE"]
                 speed = float(ship["AIS"]["SPEED"])
@@ -121,7 +121,7 @@ def mainVesselFinder(config):
                 print(f"API Request Error: {e}")
                 time_now_utc = datetime.utcnow().replace(microsecond=0)
 
-                mmsi = 0
+                ship_id = 0
                 longitude = 0
                 latitude = 0
                 speed = 0
@@ -129,15 +129,15 @@ def mainVesselFinder(config):
 
         print(last_auto_update)
 
-        print("Ship ID is " + str(mmsi))
+        print("Ship ID is " + str(ship_id))
 
         # Update DB
-        if mmsi == 0:
+        if ship_id == 0:
             raise Exception("Some sort of Error occured, see above.")
-        elif mmsi in ship_ids:
-            database_functions.setDB(conn, mmsi, longitude, latitude, speed, last_auto_update)
+        elif ship_id in ship_ids:
+            database_functions.setDB(conn, ship_id, longitude, latitude, speed, last_auto_update)
             if flag_every_3_hours == True:
-                database_functions.setDBPastPositions(conn, mmsi, longitude, latitude, str(ship["AIS"]["TIMESTAMP"]))
+                database_functions.setDBPastPositions(conn, ship_id, longitude, latitude, str(ship["AIS"]["TIMESTAMP"]))
         else:
             print("ERROR: Ship position was retrieved from the API, but not found in Database")         
 
