@@ -46,12 +46,12 @@ function locations_map (){
                 <div class="inside-marker">
                     <h5><?php echo $ships_title; ?></h5>
 					<p><?php
+						echo 'Last Auto-Update: '.$last_auto_update.'<br>';				
 						echo 'Last Position Received: <br>';
 						echo 'Lat: '.$latitude.' - Long: '.$longitude.'<br><br>';
 						echo 'Speed (kn): '.$speed.'<br><br>';
                         echo $excel_copy.'<br><br>';
-						echo 'Past Positions: '.$past_positions.'<br><br>';
-						echo 'Last Auto-Update: '.$last_auto_update.'<br>';
+						echo 'Past Positions (From Start to Now): '.$past_positions.'<br><br>';
                     ?></p>
                 </div>
             </div>			

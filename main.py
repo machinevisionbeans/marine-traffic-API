@@ -137,7 +137,7 @@ def mainVesselFinder(config):
         elif ship_id in ship_ids:
             database_functions.setDB(conn, ship_id, longitude, latitude, speed, last_auto_update)
             if flag_every_3_hours == True:
-                database_functions.setDBPastPositions(conn, ship_id, longitude, latitude, str(ship["AIS"]["TIMESTAMP"]))
+                database_functions.setDBPastPositions(conn, ship_id, longitude, latitude, speed, str(ship["AIS"]["TIMESTAMP"]))
         else:
             print("ERROR: Ship position was retrieved from the API, but not found in Database")         
 
