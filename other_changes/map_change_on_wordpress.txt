@@ -51,7 +51,8 @@ function locations_map (){
 						echo 'Lat: '.$latitude.' - Long: '.$longitude.'<br><br>';
 						echo 'Speed (kn): '.$speed.'<br><br>';
                         echo $excel_copy.'<br><br>';
-						echo 'Past Positions (From Start to Now): '.$past_positions.'<br><br>';
+						echo 'Past Positions (From Start to Now): <br>';
+						echo $past_positions.'<br><br>';
                     ?></p>
                 </div>
             </div>			
