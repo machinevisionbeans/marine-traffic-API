@@ -1,9 +1,9 @@
 import mariadb
 import configparser
 
-''' MySQL Database : ------------------------------------------------------------ '''
-'''                  | post_id | shp_owner | latitude | longtitude | excel_copy | '''
-'''                  ------------------------------------------------------------ '''
+''' MySQL Database : ------------------------------------------------------------------------------------------------------------------- '''
+'''                  | post_id | ship_owner | latitude | longtitude | excel_copy | ship_id | last_auto_update | speed | past_positions | '''
+'''                  ------------------------------------------------------------------------------------------------------------------- '''
 ''' https://mariadb.com/docs/clients/connector-python/                            '''
 
 def connectDB():
