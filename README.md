@@ -61,4 +61,8 @@ python main.py
 
 ## Final System Implementation
 
-[IMAGE]
+<img src="https://github.com/spykard/Marine-Traffic-API/blob/main/screenshots/Map-Overview.png?raw=true" alt="Final System Implementation">
+
+<!-- <p align="center">
+  <img src="https://github.com/spykard/Marine-Traffic-API/blob/main/screenshots/Map-Overview.png?raw=true" height="400px" alt="Final System Implementation">
+</p> -->
