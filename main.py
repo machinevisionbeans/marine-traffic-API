@@ -134,6 +134,7 @@ def mainVesselFinder(config):
 
         # Update DB
         if ship_id == 0:
+            conn.close()
             raise Exception("Some sort of Error occured, see above.")
         elif ship_id in ship_ids:
             database_functions.setDB(conn, ship_id, longitude, latitude, speed, last_auto_update)
@@ -143,7 +144,6 @@ def mainVesselFinder(config):
             print("ERROR: Ship position was retrieved from the API, but not found in Database")         
 
     conn.close()
-
 
 ''' Run Main Function depending on Mode '''
 mode = config['API']['mode']
