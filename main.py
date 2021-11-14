@@ -99,6 +99,7 @@ def mainVesselFinder(config):
         print() 
         if (response.status_code != 200) or (len(reponse_obj) < 2):
             print(f"API Request Error: Response Error")
+            print(f"-- Error Details:", reponse_obj)
             time_now_utc = datetime.utcnow().replace(microsecond=0)
 
             ship_id = 0
